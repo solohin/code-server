@@ -22,10 +22,11 @@ docker run -it -p 127.0.0.1:8080:8080 -v "${HOME}/.local/share/code-server:/home
 
 ### Requirements
 
-- Minimum GLIBC version of 2.17 and a minimum version of GLIBCXX of 3.4.15.
-  - This is the main requirement for building Visual Studio Code. We cannot go lower than this.
-- A 64-bit host with at least 1GB RAM and 2 cores.
-  - 1 core hosts would work but not optimally.
+- 64-bit host.
+- At least 1GB of RAM.
+- 2 cores or more are recommended (1 core works but not optimally).
+- Secure connection over HTTPS or localhost (required for service workers).
+- For Linux: GLIBC 2.17 or later and GLIBCXX 3.4.15 or later.
 - Docker (for Docker versions of `code-server`).
 
 ### Run over SSH
@@ -59,14 +60,14 @@ arguments when launching code-server with Docker. See
 ### Build
 
 See
-[VS Code prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
+[VS Code's prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
 before building.
 
 ```shell
 export OUT=/path/to/output/build                  # Optional if only building. Required if also developing.
 yarn build ${vscodeVersion} ${codeServerVersion}  # See travis.yml for the VS Code version to use.
                                                   # The code-server version can be anything you want.
-node ~/path/to/output/build/out/vs/server/main.js # You can run the built JavaScript with Node.
+node /path/to/output/build/out/vs/server/main.js  # You can run the built JavaScript with Node.
 yarn binary ${vscodeVersion} ${codeServerVersion} # Or you can package it into a binary.
 ```
 
@@ -134,7 +135,7 @@ data collected to improve code-server.
 ### Development
 
 See
-[VS Code prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
+[VS Code's prerequisites](https://github.com/Microsoft/vscode/wiki/How-to-Contribute#prerequisites)
 before developing.
 
 ```shell
@@ -154,8 +155,7 @@ yarn start
 ```
 
 If you run into issues about a different version of Node being used, try running
-`npm rebuild` in the VS Code directory and ignore the error at the end from
-`vscode-ripgrep`.
+`npm rebuild` in the VS Code directory.
 
 ### Upgrading VS Code
 
@@ -170,7 +170,6 @@ directory.
 
 Our changes include:
 
-- Change the remote schema to `code-server`.
 - Allow multiple extension directories (both user and built-in).
 - Modify the loader, websocket, webview, service worker, and asset requests to
   use the URL of the page as a base (and TLS if necessary for the websocket).
